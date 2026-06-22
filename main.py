@@ -14,7 +14,20 @@ def main():
 
     carro1.exibir_dados()
 
+from classes.usuario import Usuario
+
+usuario1 = Usuario(
+    1,
+    "Sabrina",
+    "sabrina@gmail.com",
+    "(51)99999-9999",
+    "123456"
+)
+
+usuario1.exibir_dados()
+
+print(usuario1)
 
 main()
 
-#teste da classe carro.py
+#teste da classe carro.py e usuario.py
