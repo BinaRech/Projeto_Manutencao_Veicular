@@ -6,11 +6,17 @@ class TipoManutencao:
         self.periodicidade_meses = periodicidade_meses
 
     def exibir_dados(self):
+
+        print("\n===== TIPO DE MANUTENÇÃO =====\n")
+
         print(f"ID: {self.id}")
         print(f"Nome: {self.nome}")
         print(f"Descrição: {self.descricao}")
+
         if self.periodicidade_meses:
             print(f"Periodicidade: {self.periodicidade_meses} meses")
+
+        print("\n==============================\n")
 
     def __str__(self):
         return f"TipoManutencao({self.id}, {self.nome})"

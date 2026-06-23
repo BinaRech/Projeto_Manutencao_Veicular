@@ -6,10 +6,15 @@ class Fornecedor:
         self.especialidade = especialidade
 
     def exibir_dados(self):
+
+        print("\n===== FORNECEDOR =====\n")
+
         print(f"ID: {self.id}")
         print(f"Nome: {self.nome}")
         print(f"Telefone: {self.telefone}")
         print(f"Especialidade: {self.especialidade}")
+
+        print("\n======================\n")
 
     def __str__(self):
         return f"Fornecedor(id={self.id}, nome='{self.nome}', telefone='{self.telefone}', especialidade='{self.especialidade}')"

@@ -45,11 +45,11 @@ class Manutencao:
         """Exibe os dados da manutenção"""
         print(f"ID: {self.id_manutencao}")
         print(f"ID Carro: {self.id_carro}")
-        print("Tipo de manutenção:")
-        print(f"  Nome: {self.tipo_manutencao.nome}")
-        print(f"  Descrição: {self.tipo_manutencao.descricao}")
+        print("\nTipo de manutenção: \n")
+        print(f"Nome: {self.tipo_manutencao.nome}")
+        print(f"Descrição: {self.tipo_manutencao.descricao}")
         if self.tipo_manutencao.periodicidade_meses is not None:
-            print(f"  Periodicidade: {self.tipo_manutencao.periodicidade_meses} meses")
+            print(f"Periodicidade: {self.tipo_manutencao.periodicidade_meses} meses")
         print(f"Data: {self.data_manutencao}")
         print(f"Custo: R$ {self.custo:.2f}")
         print(f"Fornecedor: {self.fornecedor}")
