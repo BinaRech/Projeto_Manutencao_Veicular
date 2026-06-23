@@ -6,7 +6,7 @@
 
 class Usuario:
 
-    # construtor da clase, inicializa os dados do usuário
+    # construtor da classe, inicializa os dados do usuário
     def __init__(self, id, nome, email, telefone, senha):
 
         self.id = id # usado no SQL
@@ -14,6 +14,9 @@ class Usuario:
         self.email = email
         self.telefone = telefone
         self.senha = senha
+
+        # guarda os veículos cadastrados pelo usuario
+        self.veiculos = []
 
 
     # exibe as informações do usuário(não exibir senha)
@@ -28,32 +31,24 @@ class Usuario:
 
         print("\n===========================\n")
 
-        # guarda os veículos cadastrado pelo usuario
-        self.veiculos = []
-
 
     # adiciona um veículo a lista do usuário
     def adicionar_veiculo(self, veiculo):
 
-        self.veiculo.append(veiculo)    
+        self.veiculos.append(veiculo)    
 
 
-    # atualiza o email do usuario
+    # atualiza o email do usuário
     def alterar_email(self, novo_email):
 
         self.email = novo_email
 
 
-    # atualiza o telefone do usuario
+    # atualiza o telefone do usuário
     def alterar_telefone(self, novo_telefone):
 
         self.telefone = novo_telefone
 
-
-    # retorna uma representação em texto do usuário
-    def __str__(self):
-
-        return f"{self.nome} - {self.email}"
     
     @staticmethod
     def coletar_dados():
