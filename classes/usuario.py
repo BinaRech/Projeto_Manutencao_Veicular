@@ -54,5 +54,23 @@ class Usuario:
     def __str__(self):
 
         return f"{self.nome} - {self.email}"
+    
+    @staticmethod
+    def coletar_dados():
+ 
+        print("\n===== CADASTRO DE USUÁRIO =====")
+        nome     = input("Nome:     ")
+        email    = input("Email:    ")
+        telefone = input("Telefone: ")
+        senha    = input("Senha:    ")
+ 
+        # id=None porque o banco gera o ID automaticamente (AUTO_INCREMENT)
+        return Usuario(id=None, nome=nome, email=email, telefone=telefone, senha=senha)
+ 
+ 
+    # retorna uma representação em texto do usuário
+    def __str__(self):
+ 
+        return f"{self.nome} - {self.email}"
 
     
