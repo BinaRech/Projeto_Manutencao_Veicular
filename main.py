@@ -1,50 +1,5 @@
-import pyodbc
 from classes.usuario import Usuario
-
-#dados do banco
-driver = "MySQL ODBC 9.7 ANSI Driver"
-server = "localhost"
-database = "revisoes_carro"
-username = "root"
-password = "545458"
-port = 3306
-
-# string de dados de conexao ao banco
-dados_conexao = (
-    f"DRIVER={driver};"
-    f"SERVER={server};"
-    f"PORT={port};"
-    f"DATABASE={database};"
-    f"USER={username};"
-    f"PASSWORD={password};"
-    f"charset=utf8mb4;"
-)
-
-conexao = pyodbc.connect(dados_conexao)
-
-def cadastro_usuario():
-    novo_usuario = Usuario.coletar_dados()
-    try:
-        cursor = conexao.cursor()
-        sql = """INSERT INTO usuarios (nome, email, telefone, senha)
-                 VALUES (?, ?, ?, ?)"""
-        cursor.execute(sql, (
-            novo_usuario.nome,
-            novo_usuario.email,
-            novo_usuario.telefone,
-            novo_usuario.senha
-        ))
-        conexao.commit()
-
-        cursor.execute("SELECT LAST_INSERT_ID()")
-        novo_usuario.id = cursor.fetchone()[0]
-
-        print("\n Usuário cadastrado com sucesso!")
-        novo_usuario.exibir_dados()
-    except Exception as e:
-        conexao.rollback()
-        print(f"\n Erro ao cadastrar usuário: {e}")
- 
+from funcoes_banco import cadastro_usuario
  
 def cadastro_veiculo():
     print("[ cadastro_veiculo ] - ainda não implementado")
