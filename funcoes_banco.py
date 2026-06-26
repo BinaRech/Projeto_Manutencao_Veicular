@@ -32,3 +32,4 @@ def cadastro_usuario():
 
     finally:
         cursor.close()
+        conexao.close()

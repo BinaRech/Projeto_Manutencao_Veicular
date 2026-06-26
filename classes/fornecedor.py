@@ -17,7 +17,7 @@ class Fornecedor:
         print("\n======================\n")
 
     def __str__(self):
-        return f"Fornecedor(id={self.id}, nome='{self.nome}', telefone='{self.telefone}', especialidade='{self.especialidade}')"
+        return self.nome
 
 
 def cadastrar_fornecedor(fornecedores, id, nome, telefone, especialidade):
