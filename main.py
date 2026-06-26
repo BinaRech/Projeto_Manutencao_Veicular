@@ -1,6 +1,9 @@
-from funcoes_banco import cadastro_usuario
-from funcoes_banco import cadastro_veiculo
- 
+from funcoes_banco import (
+    cadastro_usuario,
+    cadastro_veiculo,
+    consulta_placa
+)
+
  
 def cadastro_tipo_manutencao():
     print("[ cadastro_tipo_manutencao ] - ainda não implementado")
@@ -12,10 +15,7 @@ def cadastro_novo_fornecedor():
  
 def consulta_email():
     print("[ consulta_email ] - ainda não implementado")
- 
- 
-def consulta_placa():
-    print("[ consulta_placa ] - ainda não implementado")
+
 
 tipo_cadastro = {           
     "1": cadastro_usuario,
@@ -39,7 +39,7 @@ def main():
         opcao = input("Escolha: ").strip()
  
         if opcao == "0":
-            print("Encerrando sistema...")
+            print("\nEncerrando sistema...\n")
             break
  
         elif opcao == "1":

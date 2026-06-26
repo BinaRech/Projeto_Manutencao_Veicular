@@ -42,7 +42,7 @@ def cadastro_veiculo():
 
     cursor = None
     conexao = None
-    
+
     novo_carro = Carro.coletar_dados()
     usuario_id = input("ID do propietario: ")
     conexao = conecta()
@@ -80,3 +80,43 @@ def cadastro_veiculo():
     finally:
         cursor.close()
         conexao.close()
+
+
+def consulta_placa():
+    placa = input("\nDigite a placa do veículo: ")
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        SELECT placa, marca, modelo, ano, cor, km_atual, sinistro
+        FROM carros
+        WHERE placa = %s
+        """
+        cursor.execute(sql, (placa,))
+        resultado = cursor.fetchone()
+
+        if resultado:
+
+            print("\n===== VEÍCULO ENCONTRADO =====\n")
+
+            print(f"Placa: {resultado[0]}")
+            print(f"Marca: {resultado[1]}")
+            print(f"Modelo: {resultado[2]}")
+            print(f"Ano: {resultado[3]}")
+            print(f"Cor: {resultado[4]}")
+            print(f"KM atual: {resultado[5]}")
+            print(f"Sinistro: {'Sim' if resultado[6] else 'Não'}")
+
+            print("\n==============================\n")    
+
+        else:
+            print("\nVeículo não encontrado!")
+
+    except Exception as e:
+        print(f"\nErro na consulta: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()      
