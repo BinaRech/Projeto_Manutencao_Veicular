@@ -33,3 +33,6 @@ def cadastro_usuario():
     finally:
         cursor.close()
         conexao.close()
+
+def cadastro_veiculo():
+    

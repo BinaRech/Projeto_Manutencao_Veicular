@@ -51,6 +51,33 @@ class Carro:
             print("Erro: a quilometragem não pode diminuir.")
 
 
+    # coleta os dados do veículo pelo terminal
+    @staticmethod
+    def coletar_dados():
+
+        print("\n===== CADASTRO DE VEICULO =====")
+
+        placa = input("Placa: ")
+        marca = input("Marca: ")
+        modelo = input("Modelo: ")
+        ano = int(input("Ano: "))
+        cor = input("Cor: ")
+        km_atual = int(input("KM atual: "))
+
+        resposta = input("Possui sinistro? (s/n): ").lower()
+        sinistro = resposta == "s"
+
+        return Carro(
+            placa,
+            marca,
+            modelo,
+            ano,
+            cor,
+            km_atual,
+            sinistro     
+        )
+
+
     # retorna uma representação em texto do veículo
     def __str__(self):
         return f"{self.marca} {self.modelo} - {self.placa}"
