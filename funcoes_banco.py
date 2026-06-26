@@ -1,7 +1,10 @@
 from conexao import conecta
 from classes.usuario import Usuario
+from classes.carro import Carro
+
 
 conexao = None
+
 
 def cadastro_usuario():
     novo_usuario = Usuario.coletar_dados()
@@ -34,5 +37,46 @@ def cadastro_usuario():
         cursor.close()
         conexao.close()
 
+
 def cadastro_veiculo():
+
+    cursor = None
+    conexao = None
     
+    novo_carro = Carro.coletar_dados()
+    usuario_id = input("ID do propietario: ")
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        INSERT INTO carros
+        (placa, marca, modelo, ano, cor, km_atual, sinistro, usuario_id)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+
+        cursor.execute(sql, (
+            novo_carro.placa,
+            novo_carro.marca,
+            novo_carro.modelo,
+            novo_carro.ano,
+            novo_carro.cor,
+            novo_carro.km_atual,
+            novo_carro.sinistro,
+            usuario_id
+        ))
+
+        conexao.commit()
+
+        print("Veículo cadastrado com sucesso!")
+
+        novo_carro.exibir_dados()
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"Erro ao cadastrar veículo:  {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()

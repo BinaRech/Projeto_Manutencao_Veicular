@@ -1,8 +1,5 @@
-from classes.usuario import Usuario
 from funcoes_banco import cadastro_usuario
- 
-def cadastro_veiculo():
-    print("[ cadastro_veiculo ] - ainda não implementado")
+from funcoes_banco import cadastro_veiculo
  
  
 def cadastro_tipo_manutencao():
@@ -80,6 +77,7 @@ def main():
         else:
             print("Opção inválida.")
 
-    
-main()
+
+if __name__ == "__main__":
+    main()
 
