@@ -1,6 +1,7 @@
 from conexao import conecta
 from classes.usuario import Usuario
 from classes.carro import Carro
+from classes.tipo_manutencao import TipoManutencao
 
 
 conexao = None
@@ -156,4 +157,36 @@ def consulta_email():
 
     finally:
         cursor.close()
-        conexao.close()      
+        conexao.close()     
+
+
+def cadastro_tipo_manutencao():
+    novo_tipo = TipoManutencao.coletar_dados()
+    conexao = conecta()
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        INSERT INTO tipo_manutencao (nome, descricao, intervalo_km, intervalo_meses)
+        VALUES (%s, %s, %s, %s)
+        """
+
+        cursor.execute(sql, (
+            novo_tipo.nome,
+            novo_tipo.descricao,
+            novo_tipo.intervalo_km,
+            novo_tipo.intervalo_meses
+        ))
+
+        conexao.commit()
+        novo_tipo.id = cursor.lastrowid
+        print("\n Tipo de manutenção cadastrado!")
+        novo_tipo.exibir_dados()
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\n Erro ao cadastrar tipo de manutenção: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close() 

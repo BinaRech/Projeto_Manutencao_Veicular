@@ -60,7 +60,13 @@ class Usuario:
         senha    = input("Senha:    ")
  
         # id=None porque o banco gera o ID automaticamente (AUTO_INCREMENT)
-        return Usuario(id=None, nome=nome, email=email, telefone=telefone, senha=senha)
+        return Usuario(
+            id=None,
+            nome=nome,
+            email=email,
+            telefone=telefone,
+            senha=senha
+            )
  
  
     # retorna uma representação em texto do usuário
