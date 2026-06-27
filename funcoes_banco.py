@@ -120,3 +120,40 @@ def consulta_placa():
     finally:
         cursor.close()
         conexao.close()      
+
+
+def consulta_email():
+    email = input("\nDigite o e-mail do usuário: ")
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        SELECT id, nome, email, telefone
+        FROM usuarios
+        WHERE email = %s
+        """
+        cursor.execute(sql, (email,))
+        resultado = cursor.fetchone()
+
+        if resultado:
+
+            print("\n===== USUÁRIO ENCONTRADO =====\n")
+
+            print(f"ID: {resultado[0]}")
+            print(f"Nome: {resultado[1]}")
+            print(f"Email: {resultado[2]}")
+            print(f"Telefone: {resultado[3]}")
+
+            print("\n==============================\n")    
+
+        else:
+            print("\nUsuário não encontrado!")
+
+    except Exception as e:
+        print(f"\nErro na consulta: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()      

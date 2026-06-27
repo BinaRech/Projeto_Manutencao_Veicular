@@ -1,7 +1,8 @@
 from funcoes_banco import (
     cadastro_usuario,
     cadastro_veiculo,
-    consulta_placa
+    consulta_placa,
+    consulta_email
 )
 
  
@@ -12,10 +13,6 @@ def cadastro_tipo_manutencao():
 def cadastro_novo_fornecedor():
     print("[ cadastro_novo_fornecedor ] - ainda não implementado")
  
- 
-def consulta_email():
-    print("[ consulta_email ] - ainda não implementado")
-
 
 tipo_cadastro = {           
     "1": cadastro_usuario,
