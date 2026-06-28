@@ -7,13 +7,14 @@
 class Usuario:
 
     # construtor da classe, inicializa os dados do usuário
-    def __init__(self, id, nome, email, telefone, senha):
+    def __init__(self, id, nome, email, telefone, senha, telegram_id=None):
 
         self.id = id # usado no SQL
         self.nome = nome
         self.email = email
         self.telefone = telefone
         self.senha = senha
+        self.telegram_id = telegram_id
 
         # guarda os veículos cadastrados pelo usuario
         self.veiculos = []
@@ -28,6 +29,7 @@ class Usuario:
         print(f"Nome:  {self.nome}")
         print(f"Email:  {self.email}")
         print(f"Telefone:  {self.telefone}")
+        print(f"Telegram ID:  {self.telegram_id}")
 
         print("\n===========================\n")
 
@@ -54,10 +56,11 @@ class Usuario:
     def coletar_dados():
  
         print("\n===== CADASTRO DE USUÁRIO =====")
-        nome     = input("Nome:     ")
-        email    = input("Email:    ")
+        nome = input("Nome:     ")
+        email = input("Email:    ")
         telefone = input("Telefone: ")
-        senha    = input("Senha:    ")
+        telegram_id = int(input("Telegram Id: "))
+        senha = input("Senha:    ")
  
         # id=None porque o banco gera o ID automaticamente (AUTO_INCREMENT)
         return Usuario(
@@ -65,6 +68,7 @@ class Usuario:
             nome=nome,
             email=email,
             telefone=telefone,
+            telegram_id=telegram_id,
             senha=senha
             )
  

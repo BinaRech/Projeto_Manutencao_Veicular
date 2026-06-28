@@ -15,15 +15,16 @@ def cadastro_usuario():
         cursor = conexao.cursor()
 
         sql = """
-        INSERT INTO usuarios (nome, email, telefone, senha)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO usuarios (nome, email, telefone, senha, telegram_id)
+        VALUES (%s, %s, %s, %s, %s)
         """
 
         cursor.execute(sql, (
             novo_usuario.nome,
             novo_usuario.email,
             novo_usuario.telefone,
-            novo_usuario.senha
+            novo_usuario.senha,
+            novo_usuario.telegram_id
         ))
 
         conexao.commit()
