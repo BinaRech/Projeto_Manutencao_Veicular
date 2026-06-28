@@ -3,15 +3,13 @@ from funcoes_banco import (
     cadastro_veiculo,
     consulta_placa,
     consulta_email,
-    cadastro_tipo_manutencao
+    cadastro_tipo_manutencao,
+    cadastro_novo_fornecedor,
+    remover_usuario,
+    remover_carro,
+    remover_tipo_manutencao,
+    remover_fornecedor,
 )
-
- 
- 
- 
-def cadastro_novo_fornecedor():
-    print("[ cadastro_novo_fornecedor ] - ainda não implementado")
- 
 
 tipo_cadastro = {           
     "1": cadastro_usuario,
@@ -24,12 +22,20 @@ tipo_consultas = {
     "1": consulta_email,
     "2": consulta_placa,
 }
+
+tipo_remocao = {
+    "1": remover_usuario,
+    "2": remover_carro,
+    "3": remover_tipo_manutencao,
+    "4": remover_fornecedor,
+}
 def main():
  
     while True:
         print("\n========== MENU PRINCIPAL ==========")
         print("1 - Cadastros")
         print("2 - Consultas")
+        print("3 - Remoções")
         print("0 - Sair")
  
         opcao = input("Escolha: ").strip()
@@ -69,6 +75,24 @@ def main():
                 tipo_consultas[tipo]()
             else:
                 print("Opção inválida.")
+
+        elif opcao == "3":
+            print("\n========== MENU REMOÇÕES ==========")
+            print("1 - Remover Usuário(Remove os carros vinculados)")
+            print("2 - Remover Carro")
+            print("3 - Remover Tipo de Manutenção")
+            print("4 - Remover Fornecedor")
+            print("0 - Retornar")
+
+            tipo = input("Escolha: ").strip()
+
+            if tipo == "0":
+                continue
+            elif tipo in tipo_remocao:
+                tipo_remocao[tipo]()
+            else:
+                print("Opção inválida.")
+        
  
         else:
             print("Opção inválida.")

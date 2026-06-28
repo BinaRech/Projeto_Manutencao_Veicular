@@ -2,6 +2,7 @@ from conexao import conecta
 from classes.usuario import Usuario
 from classes.carro import Carro
 from classes.tipo_manutencao import TipoManutencao
+from classes.fornecedor import Fornecedor
 
 
 conexao = None
@@ -44,8 +45,12 @@ def cadastro_veiculo():
     cursor = None
     conexao = None
 
+    usuario_id = consulta_email()
+
+    if usuario_id is None:
+        print("\nCadastro de veículo cancelado: proprietário não encontrado.")
+        return
     novo_carro = Carro.coletar_dados()
-    usuario_id = input("ID do propietario: ")
     conexao = conecta()
 
     try:
@@ -146,8 +151,9 @@ def consulta_email():
             print(f"Nome: {resultado[1]}")
             print(f"Email: {resultado[2]}")
             print(f"Telefone: {resultado[3]}")
-
+            
             print("\n==============================\n")    
+            return resultado[0]
 
         else:
             print("\nUsuário não encontrado!")
@@ -190,3 +196,46 @@ def cadastro_tipo_manutencao():
     finally:
         cursor.close()
         conexao.close() 
+
+
+def cadastro_novo_fornecedor():
+    novo_fornecedor = Fornecedor.coletar_dados()
+    conexao = conecta()
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        INSERT INTO fornecedores (nome, telefone, especialidade)
+        VALUES (%s, %s, %s)
+        """
+
+        cursor.execute(sql, (
+            novo_fornecedor.nome,
+            novo_fornecedor.telefone,
+            novo_fornecedor.especialidade
+        ))
+
+        conexao.commit()
+        novo_fornecedor.id = cursor.lastrowid
+        print("\n Fornecedor cadastrado!")
+        novo_fornecedor.exibir_dados()
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\n Erro ao cadastrar fornecedor: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+def remover_usuario():
+    print("Em desenvolvimento:)")
+
+def remover_carro():
+    print("Em desenvolvimento:)")
+
+def remover_tipo_manutencao():
+    print("Em desenvolvimento:)")
+
+def remover_fornecedor():
+    print("Em desenvolvimento:)")
