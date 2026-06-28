@@ -232,7 +232,25 @@ def remover_usuario():
     print("Em desenvolvimento:)")
 
 def remover_carro():
-    print("Em desenvolvimento:)")
+    conexao = conecta()
+    placa = input("\nDigite a placa: ").strip()
+    try:
+        cursor = conexao.cursor()
+        sql = """
+        DELETE FROM carros
+        WHERE placa = %s;"""
+
+        cursor.execute(sql,(placa,))
+
+        conexao.commit()
+        print("\n Carro removido!")
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\n Erro ao remover carro: {e}")
+    finally:
+        cursor.close()
+        conexao.close()
 
 def remover_tipo_manutencao():
     print("Em desenvolvimento:)")
