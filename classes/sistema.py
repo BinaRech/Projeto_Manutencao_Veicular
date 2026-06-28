@@ -4,6 +4,8 @@
 #  e pelas integrações externas (Telegram, SQL).    #
 # ================================================= #
 
+import requests
+
 class Sistema:
 
     # construtor da classe
@@ -12,6 +14,9 @@ class Sistema:
         # dias antes da revisão para enviar notificações
         self.dias_notificacao = [30, 15, 7, 1]
 
+        # token do bot do Telegram
+        self.toke_telegram = "8821945772:AAEO2Z35vmkEjc6TPIb0ts3q35iHrH8NYzw"
+
     # verifica quais manutencoes precisam de alerta
     def verificar_manutencoes_pendentes(self):
 
@@ -19,15 +24,24 @@ class Sistema:
 
     # envia uma notificacao para um usuario
     def enviar_notificacao(self, telegram_id, mensagem):
+   
+        url = ( 
+            f"https://api.telegram.org/"
+            f"bot{self.self.toke_telegram}/sendMessage"
+        )
 
-        print("Função ainda não implementada")
+        dados = {
+            "chat_id": telegram_id,
+            "text": mensagem
+        }
 
-    # consulta um usuário pelo email
-    def consultar_usuario_email(self, email):
+        try:
+            resposta = requests.post(url, data=dados)
 
-        print("Função ainda não implementada")
-
-    # consulta um veiculo pela placa
-    def consultar_veicula_placa(self, placa):
-
-        print("Função ainda não implementada")
+            if resposta.status_code == 200:
+                print("Notificação enviada com sucesso!")
+            else:
+                print("Erro ao enviar notificação.")
+                print(resposta.json())
+        except Exception as e:
+            print(f"Erro de conexão com o Telegram: {e}")
