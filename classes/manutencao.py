@@ -26,8 +26,8 @@ class Manutencao:
     def verificar_proxima_revisao(self, intervalo_dias=None):
         """Verifica a próxima data de revisão recomendada"""
         if intervalo_dias is None:
-            if self.tipo_manutencao.periodicidade_meses is not None:
-                intervalo_dias = self.tipo_manutencao.periodicidade_meses * 30
+            if self.tipo_manutencao.intervalo_meses is not None:
+                intervalo_dias = self.tipo_manutencao.intervalo_meses * 30
             else:
                 intervalo_dias = 180
 
@@ -48,8 +48,8 @@ class Manutencao:
         print("\nTipo de manutenção: \n")
         print(f"Nome: {self.tipo_manutencao.nome}")
         print(f"Descrição: {self.tipo_manutencao.descricao}")
-        if self.tipo_manutencao.periodicidade_meses is not None:
-            print(f"Periodicidade: {self.tipo_manutencao.periodicidade_meses} meses")
+        if self.tipo_manutencao.intervalo_meses is not None:
+            print(f"Periodicidade: {self.tipo_manutencao.intervalo_meses} meses")
         print(f"Data: {self.data_manutencao}")
         print(f"Custo: R$ {self.custo:.2f}")
         print(f"Fornecedor: {self.fornecedor}")

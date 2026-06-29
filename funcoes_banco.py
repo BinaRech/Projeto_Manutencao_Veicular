@@ -230,8 +230,6 @@ def cadastro_novo_fornecedor():
         cursor.close()
         conexao.close()
 
-def remover_usuario():
-    print("Em desenvolvimento:)")
 
 def remover_carro():
     conexao = conecta()
@@ -289,6 +287,82 @@ def buscar_telegram_id(email):
 
     except Exception as e:
         print(f"Erro ao buscar Telegram ID: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+
+def cadastro_manutencao():
+
+    print("\n===== CADASTRO DE MANUTENÇÃO =====")
+
+    placa = input("Placa do veículo: ").strip().upper()
+    tipo_revisao_id = int(input("ID do tipo de manutenção: "))
+    tipo_manutencao = input("Tipo de manutenção (Preventiva/Corretiva): ").strip().capitalize()
+    data_revisao = input("Data da revisão (AAAA-MM-DD): ")
+    km_atual = int(input("KM atual: "))
+    observacao = input("Observação: ")
+
+    conexao = conecta()
+    
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        INSERT INTO manutencao
+        (placa, tipo_revisao_id, tipo_manutencao, data_revisao, km_atual, observacao)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """
+
+        cursor.execute(sql, (
+            placa,
+            tipo_revisao_id,
+            tipo_manutencao,
+            data_revisao,
+            km_atual,
+            observacao
+        ))
+
+        conexao.commit()
+
+        print("Manutenção cadastrada com sucesso!")
+     
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"Erro ao cadastrar manutencao: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+def buscar_telegram_por_placa(placa):
+
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        SELECT usuarios.telegram_id
+        FROM usuarios
+        INNER JOIN carros
+        ON usuarios.id = carros.usuario_id
+        WHERE carros.placa = %s
+        """
+
+        cursor.execute(sql, (placa,))
+        resultado = cursor.fetchone()
+
+        if resultado:
+            return resultado[0]
+
+        return None
+
+    except Exception as e:
+        print(f"Erro ao buscar Telegram pela placa: {e}")
+        return None
 
     finally:
         cursor.close()

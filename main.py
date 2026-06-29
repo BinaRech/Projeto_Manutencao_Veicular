@@ -1,3 +1,4 @@
+from classes.sistema import Sistema
 from funcoes_banco import (
     cadastro_usuario,
     cadastro_veiculo,
@@ -5,6 +6,7 @@ from funcoes_banco import (
     consulta_email,
     cadastro_tipo_manutencao,
     cadastro_novo_fornecedor,
+    cadastro_manutencao,
     remover_usuario,
     remover_carro,
     remover_tipo_manutencao,
@@ -16,6 +18,7 @@ tipo_cadastro = {
     "2": cadastro_veiculo,
     "3": cadastro_tipo_manutencao,
     "4": cadastro_novo_fornecedor,
+    "5": cadastro_manutencao
 }
  
 tipo_consultas = {
@@ -29,6 +32,11 @@ tipo_remocao = {
     "3": remover_tipo_manutencao,
     "4": remover_fornecedor,
 }
+
+
+sistema = Sistema()
+
+
 def main():
  
     while True:
@@ -36,6 +44,7 @@ def main():
         print("1 - Cadastros")
         print("2 - Consultas")
         print("3 - Remoções")
+        print("4 - Verificar alertas de manutenção")
         print("0 - Sair")
  
         opcao = input("Escolha: ").strip()
@@ -50,6 +59,7 @@ def main():
             print("2 - Cadastro de novo veículo")
             print("3 - Cadastro de novo tipo de manutenção")
             print("4 - Cadastro de novo fornecedor")
+            print("5 - Cadastro de manutenção")
             print("0 - Retornar")
  
             tipo = input("Escolha: ").strip()
@@ -93,7 +103,10 @@ def main():
             else:
                 print("Opção inválida.")
         
- 
+        elif opcao == "4":
+            print("\nVerificando alertas de manutenção...\n")
+            sistema.verificar_manutencoes_pendentes()
+             
         else:
             print("Opção inválida.")
 
