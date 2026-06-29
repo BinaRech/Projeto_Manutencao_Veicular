@@ -6,6 +6,7 @@
 
 import requests
 from funcoes_banco import buscar_telegram_id
+from conexao import conecta
 
 class Sistema:
 
@@ -21,7 +22,28 @@ class Sistema:
     # verifica quais manutencoes precisam de alerta
     def verificar_manutencoes_pendentes(self):
 
-        print("Função ainda não implementada")
+        conexao = conecta()
+    
+        try:
+            cursor = conexao.cursor()
+
+            sql = """
+            SELECT placa, data_revisao
+            FROM manutencao
+            """
+
+            cursor.execute(sql)
+
+            manutencoes = cursor.fetchall()
+
+            print(manutencoes)
+
+        except Exception as e:
+            print(f"Erro: {e}")
+
+        finally:
+            cursor.close()
+            conexao.close() 
 
     # envia uma notificacao para um usuario
     def enviar_notificacao(self, telegram_id, mensagem):
