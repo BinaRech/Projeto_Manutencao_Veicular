@@ -185,23 +185,6 @@ pip install requests
 
 ---
 
-## Configurar o banco
-
-Editar o arquivo:
-
-```text
-conexao.py
-```
-
-Informando:
-
-* Host
-* Usuário
-* Senha
-* Banco
-
----
-
 ## Executar
 
 ```bash
