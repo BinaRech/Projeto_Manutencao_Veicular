@@ -218,7 +218,7 @@ python main.py
 
 ---
 
-📲 Obtendo o Telegram ID
+# 📲 Obtendo o Telegram ID
 
 Para que o sistema consiga enviar notificações ao usuário, é necessário cadastrar o Telegram ID de cada proprietário.
 
