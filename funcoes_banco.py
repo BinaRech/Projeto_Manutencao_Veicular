@@ -137,7 +137,7 @@ def consulta_email():
         cursor = conexao.cursor()
 
         sql = """
-        SELECT id, nome, email, telefone
+        SELECT id, nome, email, telefone, telegram_id
         FROM usuarios
         WHERE email = %s
         """
@@ -152,6 +152,7 @@ def consulta_email():
             print(f"Nome: {resultado[1]}")
             print(f"Email: {resultado[2]}")
             print(f"Telefone: {resultado[3]}")
+            print(f"Telegram ID: {resultado[4]}")
             
             print("\n==============================\n")    
             return resultado[0]
@@ -258,3 +259,37 @@ def remover_tipo_manutencao():
 
 def remover_fornecedor():
     print("Em desenvolvimento:)")
+
+
+def remover_usuario():
+    print("Em desenvolvimento:)")
+
+
+def buscar_telegram_id(email):
+
+    conexao = conecta()
+    
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        SELECT telegram_id
+        FROM usuarios
+        WHERE email = %s
+        """
+
+        cursor.execute(sql,(email,))
+        resultado = cursor.fetchone()
+
+        if resultado:
+            return resultado[0]
+        else:
+            print("Usuário não encontrado!")
+            return None
+
+    except Exception as e:
+        print(f"Erro ao buscar Telegram ID: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()

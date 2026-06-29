@@ -5,6 +5,7 @@
 # ================================================= #
 
 import requests
+from funcoes_banco import buscar_telegram_id
 
 class Sistema:
 
@@ -27,7 +28,7 @@ class Sistema:
    
         url = ( 
             f"https://api.telegram.org/"
-            f"bot{self.self.toke_telegram}/sendMessage"
+            f"bot{self.toke_telegram}/sendMessage"
         )
 
         dados = {
@@ -45,3 +46,14 @@ class Sistema:
                 print(resposta.json())
         except Exception as e:
             print(f"Erro de conexão com o Telegram: {e}")
+
+
+    # busca o telegram_id pelo e-mail e envia uma notificação
+    def enviar_notificacao_por_email(self, email, mensagem):
+
+        telegram_id = buscar_telegram_id(email)
+
+        if telegram_id:
+            self.enviar_notificacao(telegram_id, mensagem)
+        else:
+            print("Não foi possível encontrar o Telegram do usuário!")
