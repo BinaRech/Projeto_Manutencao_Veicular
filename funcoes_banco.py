@@ -232,8 +232,10 @@ def cadastro_novo_fornecedor():
 
 
 def remover_carro():
-    conexao = conecta()
+    
     placa = input("\nDigite a placa: ").strip()
+    conexao = conecta()
+
     try:
         cursor = conexao.cursor()
         sql = """
@@ -248,19 +250,99 @@ def remover_carro():
     except Exception as e:
         conexao.rollback()
         print(f"\n Erro ao remover carro: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+def remover_usuario():
+    usuario_id = consulta_email()
+
+    if usuario_id is None:
+        print("\n Usuário não encontrado.")
+        return
+
+    conexao = conecta()
+    try:
+        cursor = conexao.cursor()
+
+        # remove todos os carros do usuario primeiro
+        sql_carros = """
+        DELETE FROM carros
+        WHERE usuario_id = %s
+        """
+        cursor.execute(sql_carros, (usuario_id,))
+        carros_removidos = cursor.rowcount  # conta as linhas realizadas no sql para saber quantos removeu
+
+        # remove o usuario
+        sql_usuario = """
+        DELETE FROM usuarios
+        WHERE id = %s
+        """
+        cursor.execute(sql_usuario, (usuario_id,))
+
+        conexao.commit()
+        print(f"\n Usuário removido com sucesso!")
+        print(f" Veículos removidos junto: {carros_removidos}")
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\n Erro ao remover usuário: {e}")
+
     finally:
         cursor.close()
         conexao.close()
 
 def remover_tipo_manutencao():
-    print("Em desenvolvimento:)")
+    
+    id_manutecao = int(input("\nDigite o id do tipo de manuteção: "))
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+        sql = """
+        DELETE FROM tipo_manutencao
+        WHERE id = %s;"""
+
+        cursor.execute(sql,(id_manutecao,))
+
+        conexao.commit()
+        print("\n Tipo de manutenção removida!")
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\n Erro ao remover manutenção: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
 
 def remover_fornecedor():
-    print("Em desenvolvimento:)")
+
+    id_fornecedor = int(input("\nDigite o id do fornecedor: "))
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+        sql = """
+        DELETE FROM fornecedores
+        WHERE id = %s;"""
+
+        cursor.execute(sql,(id_fornecedor,))
+
+        conexao.commit()
+        print("\n fornecedor removido!")
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\n Erro ao remover fornecedor: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
 
 
-def remover_usuario():
-    print("Em desenvolvimento:)")
+
 
 
 def buscar_telegram_id(email):
