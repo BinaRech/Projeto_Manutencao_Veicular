@@ -79,7 +79,7 @@ def main():
             print("\n========== MENU CONSULTAS ==========")
             print("1 - Consulta por E-mail (Usuário)")
             print("2 - Consulta por Placa (Veículo)")
-            print("3 - Histórico de manutenções por placa")
+            print("3 - Histórico de manutenções por veiculo")
             print("0 - Retornar")
  
             tipo = input("Escolha: ").strip()
