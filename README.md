@@ -13,7 +13,7 @@ close() → encerra tudo
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 🚗 DriveAlert System
+## 🚗 DriveAlert System
 
 Sistema de Gerenciamento de Manutenção Veicular desenvolvido em **Python** com **Programação Orientada a Objetos (POO)**, **MySQL** e integração com a **API do Telegram**.
 
@@ -21,7 +21,7 @@ O objetivo do sistema é permitir o cadastro de usuários, veículos e manutenç
 
 ---
 
-# 📌 Objetivo
+## 📌 Objetivo
 
 O DriveAlert System foi desenvolvido para auxiliar proprietários de veículos no controle das manutenções preventivas e corretivas.
 
@@ -31,7 +31,7 @@ Com base nas informações cadastradas, o sistema calcula automaticamente a pró
 
 ---
 
-# 🚀 Funcionalidades
+## 🚀 Funcionalidades
 
 ## 01. Usuários
 
@@ -102,7 +102,7 @@ As notificações são enviadas automaticamente através da API do Telegram.
 
 ---
 
-# 🏗️ Arquitetura
+## 🏗️ Arquitetura
 
 O projeto foi desenvolvido utilizando Programação Orientada a Objetos.
 
@@ -118,7 +118,7 @@ Principais classes:
 
 ---
 
-# 🗂️ Estrutura do projeto
+## 🗂️ Estrutura do projeto
 
 ```text
 Projeto_Manutencao_Veicular/
@@ -142,7 +142,7 @@ Projeto_Manutencao_Veicular/
 
 ---
 
-# 💻 Tecnologias utilizadas
+## 💻 Tecnologias utilizadas
 
 * Python 3
 * MySQL
@@ -153,7 +153,7 @@ Projeto_Manutencao_Veicular/
 
 ---
 
-# 🗄️ Banco de Dados
+## 🗄️ Banco de Dados
 
 Principais tabelas:
 
@@ -173,7 +173,7 @@ Relacionamentos:
 
 ---
 
-# 📲 Integração com Telegram
+## 📲 Integração com Telegram
 
 O sistema utiliza a API oficial do Telegram para envio automático de notificações aos proprietários dos veículos.
 
@@ -187,7 +187,7 @@ Fluxo:
 
 ---
 
-# ▶️ Como executar
+## ▶️ Como executar
 
 ## Instalar as dependências
 
@@ -212,7 +212,7 @@ O projeto já está configurado para utilizar o banco de dados remoto hospedado 
 
 Para utilizar as notificações automáticas via Telegram, é necessário que cada usuário informe seu **Telegram ID** durante o cadastro.
 
-# 📋 Menu principal
+## 📋 Menu principal
 
 ```text
 1 - Cadastros
@@ -225,7 +225,7 @@ Para utilizar as notificações automáticas via Telegram, é necessário que ca
 
 ---
 
-# 📖 Fluxo de utilização
+## 📖 Fluxo de utilização
 
 1. Cadastrar usuário.
 2. Informar Telegram ID.
@@ -240,7 +240,7 @@ Para utilizar as notificações automáticas via Telegram, é necessário que ca
 
 ---
 
-# 📲 Obtendo o Telegram ID
+## 📲 Obtendo o Telegram ID
 
 Para que o sistema consiga enviar notificações ao usuário, é necessário cadastrar o Telegram ID de cada proprietário.
 
@@ -284,24 +284,6 @@ Telegram ID: 8373766961
 Senha: ********
 
 Após esse cadastro, o sistema enviará automaticamente as notificações para o Telegram do usuário sempre que uma manutenção estiver próxima da data programada.
-
----
-
-# 👥 Equipe
-
-Projeto desenvolvido para a disciplina de Fábrica de Software.
-
-Integrantes:
-
-* Sabrina
-* Eduardo
-* Rafael
-
----
-
-# 📄 Licença
-
-Projeto desenvolvido exclusivamente para fins acadêmicos.
 
 ---
 
