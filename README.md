@@ -323,24 +323,27 @@ Todo o código gerado foi analisado, adaptado, integrado e testado antes de sua 
 A Inteligência Artificial foi utilizada apenas como ferramenta de apoio ao desenvolvimento, não substituindo a compreensão, implementação, validação e integração realizada por mim.
 
 ## Prompt 1 - Integração com Telegram
-Prompt
+
+Prompt:
 Auxilie na integração do sistema com a API do Telegram para envio automático de notificações.
 
-Resposta (resumo)
+Resposta (resumo):
 Foi sugerida a utilização da Telegram Bot API para envio de mensagens automáticas aos usuários cadastrados.
 
 ## Prompt 2 - Cálculo automático das revisões
-Prompt
+
+Prompt:
 Auxilie na implementação da lógica para cálculo automático da próxima revisão utilizando intervalo de tempo e quilometragem.
 
-Resposta (resumo)
+Resposta (resumo):
 Foi proposta uma lógica que calcula automaticamente a próxima revisão considerando a data da última manutenção, o intervalo em meses e o intervalo em quilômetros definidos para cada tipo de manutenção.
 
 ## Prompt 3 - Atualização da quilometragem
-Prompt
+
+Prompt:
 Auxilie na implementação da atualização da quilometragem do veículo e sua integração com o cálculo das revisões.
 
-Resposta (resumo)
+Resposta (resumo):
 Foi sugerida uma função responsável por atualizar a quilometragem do veículo e utilizá-la no cálculo dos alertas automáticos.
 
 --> Cópia
@@ -354,10 +357,11 @@ Foi sugerida uma função responsável por atualizar a quilometragem do veículo
 ```
 
 ## Prompt 4 - Consulta ao histórico
-Prompt
+
+Prompt:
 Auxilie na implementação da consulta do histórico de manutenções por placa.
 
-Resposta (resumo)
+Resposta (resumo):
 Foi sugerida uma consulta SQL responsável por recuperar todas as manutenções realizadas para um determinado veículo.
 
 --> Cópia
@@ -381,34 +385,34 @@ Foi sugerida uma consulta SQL responsável por recuperar todas as manutenções 
 
 ## Prompt 5 - Revisão de lógica
 
-Prompt
+Prompt:
 Revise a lógica do sistema e identifique possíveis inconsistências ou erros de funcionamento.
 
-Resposta (resumo)
+Resposta (resumo):
 Foram identificadas inconsistências relacionadas ao cálculo da próxima revisão, utilização da data da manutenção e geração de alertas duplicados, posteriormente corrigidas durante o desenvolvimento.
 
 ## Prompt 6 — Documentação
 
-Prompt
+Prompt:
 Auxilie na elaboração do README do projeto.
 
-Resposta (resumo)
+Resposta (resumo):
 Foi produzida uma estrutura inicial da documentação contendo descrição do projeto, funcionalidades, arquitetura, tecnologias utilizadas e instruções de execução.
 
 ## Prompt 7 - Validação das funcionalidade do sistema
 
-Prompt
+Prompt:
 vamos usar o cadastro da Sabrina para testar todas funções possiveis e valida-las
 
-Resposta
+Resposta:
 Foi o passo a passo pra testar todas as funções do sistema de forma completa(esse não tem pdf).
 
 ## Prompt 8 - Casos de Teste
 
-Prompt
+Prompt:
 faça o caso de teste do eduardo, mas com as coisas valendo e agora checando apenas a mensagem por data(sem a km ter atingido o limite) ai cadastra o Rafael(e ele sim vc faz verificando os erros), faz exatamente igual vc fez com a Sabrina(so lembra que os 4 tipos de manutenção ja estão cadstradas) e me manda em pdf.
 
-Resposta
+Resposta:
 ```text
 Caso de Teste 03 - Eduardo
 Caso de Teste 04 - Rafael
