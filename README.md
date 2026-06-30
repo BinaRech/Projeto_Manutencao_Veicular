@@ -399,3 +399,14 @@ Resposta:
 Caso de Teste 03 - Eduardo
 Caso de Teste 04 - Rafael
 ```
+
+## Declaração de utilização de Inteligência Artificial (Eduardo Feix)
+
+Utilizei a inteligencia artificial para correção de bugs, como  diretórios errados, conexão incorreta com o DB, etc.
+
+Outro uso de IA seria no quesito dicas sobre ferramentas para serem utilizadas, como Railway(ferramenta para DB), dica de biblioteca como o mysql.connector.
+
+Prompt:
+Me site formas de como posso hospedar o Banco de dados de maneira que consiga ser utilizado em python por varias pessoas sem ser em um servidor local.
+
+Como resposta obtive a recomendação de varios métodos, mas dentre eles o Railway foi o que mais se destacou pelo fato de ser grátis e simples de utilizar, junto tambem obtive a resposta da biblioteca mysql connector, que utilizei para integrar o banco.
