@@ -255,6 +255,7 @@ def remover_carro():
         cursor.close()
         conexao.close()
 
+
 def remover_usuario():
     usuario_id = consulta_email()
 
@@ -293,6 +294,7 @@ def remover_usuario():
         cursor.close()
         conexao.close()
 
+
 def remover_tipo_manutencao():
     
     id_manutecao = int(input("\nDigite o id do tipo de manuteção: "))
@@ -317,6 +319,7 @@ def remover_tipo_manutencao():
         cursor.close()
         conexao.close()
 
+
 def remover_fornecedor():
 
     id_fornecedor = int(input("\nDigite o id do fornecedor: "))
@@ -340,9 +343,6 @@ def remover_fornecedor():
     finally:
         cursor.close()
         conexao.close()
-
-
-
 
 
 def buscar_telegram_id(email):
@@ -378,6 +378,8 @@ def buscar_telegram_id(email):
 def cadastro_manutencao():
 
     print("\n===== CADASTRO DE MANUTENÇÃO =====")
+
+    listar_tipos_manutencao()
 
     placa = input("Placa do veículo: ").strip().upper()
     tipo_revisao_id = int(input("ID do tipo de manutenção: "))
@@ -445,6 +447,42 @@ def buscar_telegram_por_placa(placa):
     except Exception as e:
         print(f"Erro ao buscar Telegram pela placa: {e}")
         return None
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+
+def listar_tipos_manutencao():
+
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        SELECT id, nome, descricao, intervalo_km, intervalo_meses
+        FROM tipo_manutencao
+        ORDER BY id
+        """
+
+        cursor.execute(sql)
+        tipos = cursor.fetchall()
+
+        if tipos:
+            print("\n===== TIPOS DE MANUTENÇÃO CADASTRADOS =====\n")
+
+            print(f"{'ID':<5} {'Nome':<25} {'Intervalo KM':<15} {'Meses':<10}")
+
+            for tipo in tipos:
+                print(f"{tipo[0]:<5} {tipo[1]:<25} {str(tipo[3]):<15} {str(tipo[4]):<10}")
+
+            print("\n===========================================\n")
+        else:
+            print("\nNenhum tipo de manutenção cadastrado.")
+
+    except Exception as e:
+        print(f"Erro ao listar tipos de manutenção: {e}")
 
     finally:
         cursor.close()
