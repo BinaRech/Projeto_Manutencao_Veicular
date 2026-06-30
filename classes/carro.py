@@ -36,8 +36,8 @@ class Carro:
 
         print("\n============================\n")
 
+
     # utilizado pela classe Manutencao para vincular uma ao veículo
-    # Rafa usar essa para chamar no seu módulo
     def adicionar_manutencao(self, manutencao):
         self.manutencoes.append(manutencao)
 

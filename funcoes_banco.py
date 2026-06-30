@@ -233,19 +233,35 @@ def cadastro_novo_fornecedor():
 
 def remover_carro():
     
-    placa = input("\nDigite a placa: ").strip()
+    placa = input("\nDigite a placa: ").strip().upper()
     conexao = conecta()
 
     try:
         cursor = conexao.cursor()
+
+        #remove as manutenções vinvuladas ao carro
+        sql_manutencoes = """
+        DELETE FROM manutencao
+        WHERE placa = s%
+        """
+        cursor.execute(sql_manutencoes, (placa,))
+        manutencoes_removidas = cursor.rowcount
+
+        # remove o carro
         sql = """
         DELETE FROM carros
         WHERE placa = %s;"""
 
         cursor.execute(sql,(placa,))
+        carros_removidos = cursor.rowcount
 
         conexao.commit()
-        print("\n Carro removido!")
+
+        if carros_removidos > 0:
+            print("\nCarro removido com sucesso!")
+            print(f"Manutenções removidas junto: {manutencoes_removidas}")
+        else:
+            print("\nCarro não encontrado.")
 
     except Exception as e:
         conexao.rollback()
@@ -267,6 +283,17 @@ def remover_usuario():
     try:
         cursor = conexao.cursor()
 
+        # remove manutenções dos carros do usuário
+        sql_manutencoes = """
+        DELETE m
+        FROM manutencao m
+        INNER JOIN carros c
+        ON m.placa = c.placa
+        WHERE c.usuario_id = %s
+        """
+        cursor.execute(sql_manutencoes, (usuario_id,))
+        manutencoes_removidas = cursor.rowcount
+
         # remove todos os carros do usuario primeiro
         sql_carros = """
         DELETE FROM carros
@@ -281,10 +308,16 @@ def remover_usuario():
         WHERE id = %s
         """
         cursor.execute(sql_usuario, (usuario_id,))
+        usuarios_removidos = cursor.rowcount
 
         conexao.commit()
-        print(f"\n Usuário removido com sucesso!")
-        print(f" Veículos removidos junto: {carros_removidos}")
+
+        if usuarios_removidos > 0:
+            print("\nUsuário removido com sucesso!")
+            print(f"Veículos removidos junto: {carros_removidos}")
+            print(f"Manutenções removidas junto: {manutencoes_removidas}")
+        else:
+            print("\nUsuário não encontrado.")
 
     except Exception as e:
         conexao.rollback()
@@ -307,9 +340,12 @@ def remover_tipo_manutencao():
         WHERE id = %s;"""
 
         cursor.execute(sql,(id_manutecao,))
-
         conexao.commit()
-        print("\n Tipo de manutenção removida!")
+
+        if cursor.rowcount > 0:
+            print("\nTipo de manutenção removido!")
+        else:
+            print("\nTipo de manutenção não encontrado.")
 
     except Exception as e:
         conexao.rollback()
@@ -327,14 +363,18 @@ def remover_fornecedor():
 
     try:
         cursor = conexao.cursor()
+
         sql = """
         DELETE FROM fornecedores
         WHERE id = %s;"""
 
         cursor.execute(sql,(id_fornecedor,))
-
         conexao.commit()
-        print("\n fornecedor removido!")
+
+        if cursor.rowcount > 0:
+            print("\nFornecedor removido!")
+        else:
+            print("\nFornecedor não encontrado.")
 
     except Exception as e:
         conexao.rollback()
@@ -369,6 +409,7 @@ def buscar_telegram_id(email):
 
     except Exception as e:
         print(f"Erro ao buscar Telegram ID: {e}")
+        return None
 
     finally:
         cursor.close()

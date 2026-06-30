@@ -20,7 +20,6 @@ class Fornecedor:
 
         print("\n======================\n")
 
-    
 
     @staticmethod
     def coletar_dados():
