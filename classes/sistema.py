@@ -17,6 +17,7 @@ class Sistema:
         # dias antes da revisão para enviar notificações
         self.dias_notificacao = [30, 15, 7, 1]
 
+        # margem de quilometragem para envio de alerta
         self.km_notificacao = 1000
 
         # token do bot do Telegram
@@ -31,6 +32,9 @@ class Sistema:
         try:
             cursor = conexao.cursor()
 
+            # consulta a última manutenção registrada de cada tipo para cada veículo,
+            # obtendo também os intervalos de revisão e a quilometragem atual
+            # para verificar se é necessário enviar um alerta ao proprietário
             sql = """
             SELECT 
                 m.placa,
@@ -61,8 +65,10 @@ class Sistema:
             cursor.execute(sql)
             manutencoes = cursor.fetchall()
 
+            # data atual usada para calcular os dias restantes
             hoje = date.today()
 
+            # percorre as manutenções encontradas
             for manutencao in manutencoes:
                 placa = manutencao[0]
                 data_manutencao = manutencao[1]
@@ -72,31 +78,40 @@ class Sistema:
                 intervalo_meses = manutencao[5]
                 km_atual_carro = manutencao[6]
 
+                 # variáveis usadas nos cálculos
                 proxima_data = None
                 proxima_km = None
                 dias_restantes = None
                 km_restantes = None
 
+                # calcula a próxima revisão por tempo
+                # usando a data da última manutenção + intervalo em meses
                 if intervalo_meses is not None:
                     proxima_data = data_manutencao + timedelta(days=intervalo_meses * 30)
                     dias_restantes = (proxima_data - hoje).days
 
+                # calcula a próxima revisão por quilometragem
+                # usando o KM da última manutenção + intervalo em KM
                 if intervalo_km is not None:
                     proxima_km = km_manutencao + intervalo_km
                     km_restantes = proxima_km - km_atual_carro
 
+                # verifica se a manutenção está próxima pela data
                 alerta_por_data = (
                     dias_restantes is not None
                     and (dias_restantes in self.dias_notificacao or dias_restantes == 0)
                 )
 
+                # verifica se a manutenção está próxima pela quilometragem
                 alerta_por_km = (
                     km_restantes is not None
                     and km_restantes <= self.km_notificacao
                 )
 
+                # se houver alerta por data ou por km, monta a mensagem
                 if alerta_por_data or alerta_por_km:
 
+                    # mensagem enviada ao proprietário pelo Telegram
                     mensagem = (
                         "🚗🔔 DriveAlert System\n\n"
                         "Olá!\n\n"
@@ -130,8 +145,10 @@ class Sistema:
 
                     mensagem += "Equipe DriveAlert 🚗"
 
+                    # busca o Telegram ID do proprietário do veículo
                     telegram_id = buscar_telegram_por_placa(placa)
 
+                    # envia a notificação caso o Telegram ID exista
                     if telegram_id:
                         self.enviar_notificacao(telegram_id, mensagem)
                     else:

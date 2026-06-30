@@ -1,4 +1,8 @@
+# importa a classe responsável pelas regras de negócio
+# e pelo envio das notificações via Telegram
 from classes.sistema import Sistema
+
+# importa todas as funções responsáveis pelas operações
 from funcoes_banco import (
     cadastro_usuario,
     cadastro_veiculo,
@@ -36,12 +40,13 @@ tipo_remocao = {
     "4": remover_fornecedor,
 }
 
-
+# cria o objeto principal do sistema, responsável pelos alertas automáticos
 sistema = Sistema()
 
 
 def main():
- 
+
+    # mantém o programa rodando até que o usuário escolha sair
     while True:
         print("\n========== MENU PRINCIPAL ==========")
         print("1 - Cadastros")
@@ -56,7 +61,8 @@ def main():
         if opcao == "0":
             print("\nEncerrando sistema...\n")
             break
- 
+
+        # menu responsável pelos cadastros principais do sistema
         elif opcao == "1":
             print("\n========== MENU CADASTROS ==========")
             print("1 - Cadastro de novo usuário")
@@ -74,7 +80,8 @@ def main():
                 tipo_cadastro[tipo]()
             else:
                 print("Opção inválida.")
- 
+
+        # menu responsável pelas consultas
         elif opcao == "2":
             print("\n========== MENU CONSULTAS ==========")
             print("1 - Consulta por E-mail (Usuário)")
@@ -91,6 +98,7 @@ def main():
             else:
                 print("Opção inválida.")
 
+        # menu responsável pelas remoções
         elif opcao == "3":
             print("\n========== MENU REMOÇÕES ==========")
             print("1 - Remover Usuário(Remove os carros vinculados)")
@@ -107,11 +115,13 @@ def main():
                 tipo_remocao[tipo]()
             else:
                 print("Opção inválida.")
-        
+
+        # chama a rotina que verifica revisões por data e quilometragem
         elif opcao == "4":
             print("\nVerificando alertas de manutenção...\n")
             sistema.verificar_manutencoes_pendentes()
-             
+
+        # atualiza a quilometragem atual do veículo
         elif opcao == "5":
             atualizar_km_veiculo()
 

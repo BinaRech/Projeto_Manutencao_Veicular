@@ -9,11 +9,16 @@ conexao = None
 
 
 def cadastro_usuario():
+
+    # coleta os dados do usuário através da classe Usuario
     novo_usuario = Usuario.coletar_dados()
+
+    # abre conexão com o banco de dados
     conexao = conecta()
     try:
         cursor = conexao.cursor()
 
+        # insere o usuário no banco, incluindo o Telegram ID
         sql = """
         INSERT INTO usuarios (nome, email, telefone, senha, telegram_id)
         VALUES (%s, %s, %s, %s, %s)
@@ -46,14 +51,19 @@ def cadastro_veiculo():
     cursor = None
     conexao = None
 
+    # primeiro localiza o proprietário pelo e-mail
     usuario_id = consulta_email()
 
+    # se o usuário não existir, o veículo não pode ser cadastrado
     if usuario_id is None:
         print("\nCadastro de veículo cancelado: proprietário não encontrado.")
         return
+
+    # coleta os dados do veículo
     novo_carro = Carro.coletar_dados()
     conexao = conecta()
 
+    # cadastra o veículo vinculado ao usuário encontrado
     try:
         cursor = conexao.cursor()
 
@@ -90,6 +100,8 @@ def cadastro_veiculo():
 
 
 def consulta_placa():
+
+    # consulta um veículo a partir da placa informada
     placa = input("\nDigite a placa do veículo: ")
     conexao = conecta()
 
@@ -130,6 +142,8 @@ def consulta_placa():
 
 
 def consulta_email():
+
+    # consulta um usuário a partir do e-mail informado
     email = input("\nDigite o e-mail do usuário: ")
     conexao = conecta()
 
@@ -169,8 +183,11 @@ def consulta_email():
 
 
 def cadastro_tipo_manutencao():
+
+    # coleta os dados do tipo de manutenção, incluindo intervalos por km e meses
     novo_tipo = TipoManutencao.coletar_dados()
     conexao = conecta()
+
     try:
         cursor = conexao.cursor()
 
@@ -187,6 +204,7 @@ def cadastro_tipo_manutencao():
         ))
 
         conexao.commit()
+        # recupera o ID gerado automaticamente pelo banco (AUTO_INCREMENT)
         novo_tipo.id = cursor.lastrowid
         print("\n Tipo de manutenção cadastrado!")
         novo_tipo.exibir_dados()
@@ -201,8 +219,11 @@ def cadastro_tipo_manutencao():
 
 
 def cadastro_novo_fornecedor():
+
+    # coleta os dados do fornecedor
     novo_fornecedor = Fornecedor.coletar_dados()
     conexao = conecta()
+
     try:
         cursor = conexao.cursor()
 
@@ -232,7 +253,9 @@ def cadastro_novo_fornecedor():
 
 
 def remover_carro():
-    
+
+    # remove um veículo a partir da placa
+    # antes de remover o carro, o ideal é remover suas manutenções vinculadas
     placa = input("\nDigite a placa: ").strip().upper()
     conexao = conecta()
 
@@ -273,6 +296,8 @@ def remover_carro():
 
 
 def remover_usuario():
+
+    # localiza o usuário pelo e-mail antes de remover
     usuario_id = consulta_email()
 
     if usuario_id is None:
@@ -280,6 +305,9 @@ def remover_usuario():
         return
 
     conexao = conecta()
+
+    # remove primeiro os dados dependentes, como manutenções e veículos
+    # depois remove o usuário
     try:
         cursor = conexao.cursor()
 
@@ -387,6 +415,7 @@ def remover_fornecedor():
 
 def buscar_telegram_id(email):
 
+    # busca o Telegram ID de um usuário a partir do e-mail cadastrado
     conexao = conecta()
     
     try:
@@ -420,12 +449,19 @@ def cadastro_manutencao():
 
     print("\n===== CADASTRO DE MANUTENÇÃO =====")
 
+    # exibe os tipos de manutenção cadastrados para facilitar a escolha do ID
     listar_tipos_manutencao()
 
+    # dados da manutenção realizada
     placa = input("Placa do veículo: ").strip().upper()
     tipo_revisao_id = int(input("ID do tipo de manutenção: "))
     tipo_manutencao = input("Tipo de manutenção (Preventiva/Corretiva): ").strip().capitalize()
+
+    # esta data representa a última manutenção realizada
+    # a próxima revisão será calculada automaticamente pelo sistema
     data_revisao = input("Data da manutenção realizada (AAAA-MM-DD): ")
+
+    # quilometragem do veículo no momento em que a manutenção foi feita
     km_atual = int(input("KM atual: "))
     observacao = input("Observação: ")
 
@@ -462,8 +498,11 @@ def cadastro_manutencao():
         cursor.close()
         conexao.close()
 
+
 def buscar_telegram_por_placa(placa):
 
+    # encontra o Telegram ID do proprietário de um veículo usando a placa
+    # isso permite enviar o alerta para o usuário correto
     conexao = conecta()
 
     try:
@@ -496,6 +535,8 @@ def buscar_telegram_por_placa(placa):
 
 def listar_tipos_manutencao():
 
+    # lista todos os tipos de manutenção cadastrados
+    # para que o usuário saiba qual ID escolher
     conexao = conecta()
 
     try:
@@ -529,8 +570,11 @@ def listar_tipos_manutencao():
         cursor.close()
         conexao.close()
 
+
 def atualizar_km_veiculo():
 
+    # atualiza a quilometragem atual do veículo
+    # essa informação é usada no cálculo dos alertas por KM
     placa = input("\nDigite a placa do veículo: ").strip().upper()
     novo_km = int(input("Digite o novo KM do veículo: "))
 
@@ -539,6 +583,7 @@ def atualizar_km_veiculo():
     try:
         cursor = conexao.cursor()
 
+        # verifica se o veículo existe antes de atualizar
         sql_consulta = """
         SELECT km_atual
         FROM carros
@@ -554,10 +599,12 @@ def atualizar_km_veiculo():
 
         km_atual = resultado[0]
 
+        # impede que a quilometragem seja reduzida
         if novo_km < km_atual:
             print("\nErro: a quilometragem não pode diminuir.")
             return
 
+        # atualiza a quilometragem no banco
         sql_update = """
         UPDATE carros
         SET km_atual = %s
@@ -582,12 +629,15 @@ def atualizar_km_veiculo():
 
 def consultar_historico_manutencoes():
 
+    # consulta todas as manutenções cadastradas para uma placa
+    # formando o histórico do veículo
     placa = input("\nDigite a placa do veículo: ").strip().upper()
     conexao = conecta()
 
     try:
         cursor = conexao.cursor()
 
+        # busca o histórico da mais recente para a mais antiga
         sql = """
         SELECT 
             m.id,

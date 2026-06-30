@@ -54,7 +54,9 @@ class Usuario:
     
     @staticmethod
     def coletar_dados():
- 
+
+        # coleta os dados do usuário, incluindo o Telegram ID
+        # necessário para envio das notificações
         print("\n===== CADASTRO DE USUÁRIO =====")
         nome = input("Nome:     ")
         email = input("Email:    ")

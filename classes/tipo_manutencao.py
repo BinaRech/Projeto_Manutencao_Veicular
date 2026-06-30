@@ -22,8 +22,13 @@ class TipoManutencao:
 
         print("\n==============================\n")
 
+    # método estático utilizado para criar um objeto
+    # a partir dos dados informados pelo usuário
     @staticmethod
     def coletar_dados():
+
+        # coleta o tipo de manutenção e os intervalos usados
+        # para calcular próximas revisões
         print("\n===== CADASTRO DE TIPO DE MANUTENÇÃO =====\n")
 
         nome = input("Nome: ")
