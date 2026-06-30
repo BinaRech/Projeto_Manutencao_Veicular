@@ -305,7 +305,7 @@ Projeto desenvolvido exclusivamente para fins acadêmicos.
 
 ---
 
-# Declaração de utilização de Inteligência Artificial (Sabrina Rech)
+## Declaração de utilização de Inteligência Artificial (Sabrina Rech)
 
 Durante o desenvolvimento deste projeto foi utilizada Inteligência Artificial (ChatGPT - OpenAI) como ferramenta de apoio à programação.
 
