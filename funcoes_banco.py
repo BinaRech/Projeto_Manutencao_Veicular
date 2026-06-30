@@ -579,3 +579,54 @@ def atualizar_km_veiculo():
     finally:
         cursor.close()
         conexao.close()
+
+def consultar_historico_manutencoes():
+
+    placa = input("\nDigite a placa do veículo: ").strip().upper()
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql = """
+        SELECT 
+            m.id,
+            m.placa,
+            t.nome,
+            m.tipo_manutencao,
+            m.data_revisao,
+            m.km_atual,
+            m.observacao
+        FROM manutencao m
+        INNER JOIN tipo_manutencao t
+        ON m.tipo_revisao_id = t.id
+        WHERE m.placa = %s
+        ORDER BY m.data_revisao DESC
+        """
+
+        cursor.execute(sql, (placa,))
+        historico = cursor.fetchall()
+
+        if historico:
+
+            print("\n===== HISTÓRICO DE MANUTENÇÕES =====\n")
+
+            for manutencao in historico:
+                print(f"ID: {manutencao[0]}")
+                print(f"Placa: {manutencao[1]}")
+                print(f"Serviço: {manutencao[2]}")
+                print(f"Tipo: {manutencao[3]}")
+                print(f"Data da manutenção: {manutencao[4]}")
+                print(f"KM na manutenção: {manutencao[5]}")
+                print(f"Observação: {manutencao[6]}")
+                print("-----------------------------------")
+
+        else:
+            print("\nNenhuma manutenção encontrada para este veículo.")
+
+    except Exception as e:
+        print(f"\nErro ao consultar histórico: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()

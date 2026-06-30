@@ -8,6 +8,7 @@ from funcoes_banco import (
     cadastro_novo_fornecedor,
     cadastro_manutencao,
     atualizar_km_veiculo,
+    consultar_historico_manutencoes,
     remover_usuario,
     remover_carro,
     remover_tipo_manutencao,
@@ -25,6 +26,7 @@ tipo_cadastro = {
 tipo_consultas = {
     "1": consulta_email,
     "2": consulta_placa,
+    "3": consultar_historico_manutencoes,
 }
 
 tipo_remocao = {
@@ -77,6 +79,7 @@ def main():
             print("\n========== MENU CONSULTAS ==========")
             print("1 - Consulta por E-mail (Usuário)")
             print("2 - Consulta por Placa (Veículo)")
+            print("3 - Histórico de manutenções por placa")
             print("0 - Retornar")
  
             tipo = input("Escolha: ").strip()
