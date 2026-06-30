@@ -6,7 +6,7 @@
 
 import requests
 from conexao import conecta
-from datetime import date
+from datetime import date, timedelta
 from funcoes_banco import buscar_telegram_id, buscar_telegram_por_placa
 
 class Sistema:
@@ -16,6 +16,8 @@ class Sistema:
 
         # dias antes da revisão para enviar notificações
         self.dias_notificacao = [30, 15, 7, 1]
+
+        self.km_notificacao = 1000
 
         # token do bot do Telegram
         self.token_telegram = "8821945772:AAHv8FejJiq-ElB4UtoQcCAxQEUS9fQHnpg"
@@ -30,8 +32,30 @@ class Sistema:
             cursor = conexao.cursor()
 
             sql = """
-            SELECT placa, data_revisao
-            FROM manutencao
+            SELECT 
+                m.placa,
+                m.data_revisao,
+                m.km_atual,
+                t.nome,
+                t.intervalo_km,
+                t.intervalo_meses,
+                c.km_atual
+            FROM manutencao m
+            INNER JOIN carros c
+                ON c.placa = m.placa
+            INNER JOIN tipo_manutencao t
+                ON t.id = m.tipo_revisao_id
+            INNER JOIN (
+                SELECT
+                    placa,
+                    tipo_revisao_id,
+                    MAX(data_revisao) AS ultima_data
+                FROM manutencao
+                GROUP BY placa, tipo_revisao_id
+            ) ult
+                ON ult.placa = m.placa
+                AND ult.tipo_revisao_id = m.tipo_revisao_id
+                AND ult.ultima_data = m.data_revisao
             """
 
             cursor.execute(sql)
@@ -41,28 +65,68 @@ class Sistema:
 
             for manutencao in manutencoes:
                 placa = manutencao[0]
-                data_revisao = manutencao[1]
+                data_manutencao = manutencao[1]
+                km_manutencao = manutencao[2]
+                nome_tipo = manutencao[3]
+                intervalo_km = manutencao[4]
+                intervalo_meses = manutencao[5]
+                km_atual_carro = manutencao[6]
 
-                dias_restantes = (data_revisao - hoje).days
+                proxima_data = None
+                proxima_km = None
+                dias_restantes = None
+                km_restantes = None
 
-                if dias_restantes in self.dias_notificacao or dias_restantes == 0:
+                if intervalo_meses is not None:
+                    proxima_data = data_manutencao + timedelta(days=intervalo_meses * 30)
+                    dias_restantes = (proxima_data - hoje).days
+
+                if intervalo_km is not None:
+                    proxima_km = km_manutencao + intervalo_km
+                    km_restantes = proxima_km - km_atual_carro
+
+                alerta_por_data = (
+                    dias_restantes is not None
+                    and (dias_restantes in self.dias_notificacao or dias_restantes == 0)
+                )
+
+                alerta_por_km = (
+                    km_restantes is not None
+                    and km_restantes <= self.km_notificacao
+                )
+
+                if alerta_por_data or alerta_por_km:
 
                     mensagem = (
                         "🚗🔔 DriveAlert System\n\n"
                         "Olá!\n\n"
-                        f"Seu veículo {placa} possui uma manutenção programada.\n\n"
-                        f"📅 Data da revisão: {data_revisao}\n"
-                        f"⏳ Dias restantes: {dias_restantes}\n\n"
-                    )   
+                        f"Seu veículo {placa} possui uma manutenção próxima.\n\n"
+                        f"🔧 Serviço: {nome_tipo}\n"
+                        f"📅 Última manutenção: {data_manutencao}\n"
+                    )
+
+                    if proxima_data is not None:
+                        mensagem += f"📆 Próxima revisão por tempo: {proxima_data}\n"
+                        mensagem += f"⏳ Dias restantes: {dias_restantes}\n"
+
+                    if proxima_km is not None:
+                        mensagem += f"🛣️ Próxima revisão por KM: {proxima_km:,} km\n".replace(",", ".")
+                        mensagem += f"📍 KM atual do veículo: {km_atual_carro:,} km\n".replace(",", ".")
+                        mensagem += f"⏱️ KM restantes: {km_restantes:,} km\n".replace(",", ".")
+
+                    mensagem += "\n"
 
                     if dias_restantes == 0:
                         mensagem += "⚠️ A revisão deve ser realizada hoje!\n\n"
-
                     elif dias_restantes == 1:
                         mensagem += "⚠️ A revisão será amanhã!\n\n"
-
-                    else:
+                    elif alerta_por_data:
                         mensagem += "Lembre-se de agendar sua manutenção.\n\n"
+
+                    if km_restantes is not None and km_restantes <= 0:
+                        mensagem += "⚠️ A revisão já atingiu ou passou da quilometragem recomendada!\n\n"
+                    elif alerta_por_km:
+                        mensagem += "⚠️ A revisão está próxima pela quilometragem!\n\n"
 
                     mensagem += "Equipe DriveAlert 🚗"
 
@@ -80,6 +144,7 @@ class Sistema:
             if cursor:
                 cursor.close()
             conexao.close()
+
 
     # envia uma notificacao para um usuario
     def enviar_notificacao(self, telegram_id, mensagem):

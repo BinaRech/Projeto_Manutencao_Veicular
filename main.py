@@ -7,6 +7,7 @@ from funcoes_banco import (
     cadastro_tipo_manutencao,
     cadastro_novo_fornecedor,
     cadastro_manutencao,
+    atualizar_km_veiculo,
     remover_usuario,
     remover_carro,
     remover_tipo_manutencao,
@@ -45,6 +46,7 @@ def main():
         print("2 - Consultas")
         print("3 - Remoções")
         print("4 - Verificar alertas de manutenção")
+        print("5 - Atualizar KM do veículo")
         print("0 - Sair")
  
         opcao = input("Escolha: ").strip()
@@ -107,6 +109,9 @@ def main():
             print("\nVerificando alertas de manutenção...\n")
             sistema.verificar_manutencoes_pendentes()
              
+        elif opcao == "5":
+            atualizar_km_veiculo()
+
         else:
             print("Opção inválida.")
 

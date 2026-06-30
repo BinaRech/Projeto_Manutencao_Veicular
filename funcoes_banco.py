@@ -384,7 +384,7 @@ def cadastro_manutencao():
     placa = input("Placa do veículo: ").strip().upper()
     tipo_revisao_id = int(input("ID do tipo de manutenção: "))
     tipo_manutencao = input("Tipo de manutenção (Preventiva/Corretiva): ").strip().capitalize()
-    data_revisao = input("Data da revisão (AAAA-MM-DD): ")
+    data_revisao = input("Data da manutenção realizada (AAAA-MM-DD): ")
     km_atual = int(input("KM atual: "))
     observacao = input("Observação: ")
 
@@ -483,6 +483,57 @@ def listar_tipos_manutencao():
 
     except Exception as e:
         print(f"Erro ao listar tipos de manutenção: {e}")
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+def atualizar_km_veiculo():
+
+    placa = input("\nDigite a placa do veículo: ").strip().upper()
+    novo_km = int(input("Digite o novo KM do veículo: "))
+
+    conexao = conecta()
+
+    try:
+        cursor = conexao.cursor()
+
+        sql_consulta = """
+        SELECT km_atual
+        FROM carros
+        WHERE placa = %s
+        """
+
+        cursor.execute(sql_consulta, (placa,))
+        resultado = cursor.fetchone()
+
+        if resultado is None:
+            print("\nVeículo não encontrado!")
+            return
+
+        km_atual = resultado[0]
+
+        if novo_km < km_atual:
+            print("\nErro: a quilometragem não pode diminuir.")
+            return
+
+        sql_update = """
+        UPDATE carros
+        SET km_atual = %s
+        WHERE placa = %s
+        """
+
+        cursor.execute(sql_update, (novo_km, placa))
+        conexao.commit()
+
+        print("\nKM atualizado com sucesso!")
+        print(f"Placa: {placa}")
+        print(f"KM anterior: {km_atual}")
+        print(f"KM atual: {novo_km}")
+
+    except Exception as e:
+        conexao.rollback()
+        print(f"\nErro ao atualizar KM: {e}")
 
     finally:
         cursor.close()
